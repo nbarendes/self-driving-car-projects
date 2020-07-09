@@ -56,10 +56,10 @@ int main() {
   int lane = 1;
   
   // Reference velocity to target
-  double ref_vel = 49.5; //mph
+  double ref_vel = 0.0; //mph
+  double goal_speed = 49.5f;
   
-  
-  h.onMessage([&lane,&ref_vel,&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,
+  h.onMessage([&lane,&ref_vel, &goal_speed, &map_waypoints_x,&map_waypoints_y,&map_waypoints_s,
                &map_waypoints_dx,&map_waypoints_dy]
               (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                uWS::OpCode opCode) {
@@ -115,7 +115,10 @@ int main() {
            car_s = end_path_s; 
             
           }
-          bool too_close = false;
+          
+          bool car_ahead_close = false;
+          bool car_left_close = false; 
+          bool car_right_close = false;
           
           
           //find ref_v to use
@@ -123,8 +126,16 @@ int main() {
           {
            //car is in my lane 
            float d = sensor_fusion[i][6];
-           if(d < (2 + 4 * lane + 2) && d > (2 + 4 * lane - 2))
-           {
+           int car_lane = -1; 
+           if(d < 4 && d > 0)
+             car_lane = 0;
+           else if(d < 8 && d > 4)
+             car_lane = 1;
+           else if(d < 12 && d > 8)
+             car_lane = 2;
+           else
+             continue;
+           
              double vx = sensor_fusion[i][3];
              double vy = sensor_fusion[i][4];
              double check_speed = sqrt(vx*vx + vy*vy);
@@ -133,29 +144,40 @@ int main() {
              // if using previous points can proect s value outwards in time 
              check_car_s+=((double)prev_size*.02*check_speed);
              
-             //check s values greater than mine and s gap
-             if((check_car_s > car_s) && ((check_car_s - car_s) < 30))
-             {
-              
-               //ref_vel = 29.5; //mph
-               too_close = true;
-             }
              
-             
-           }
-            
+             // car in our lane is front within 30
+            if (car_lane == lane){
+              if (check_car_s - car_s > 0 && check_car_s - car_s < 30)
+                car_ahead_close = true;
+            }
+            // left in the range of -10 to 30
+            else if (car_lane + 1 == lane){
+              if (check_car_s - car_s > -10 && check_car_s - car_s <  30)
+                car_left_close = true;
+            }
+            // right in the range of -10 to 30
+            else if (car_lane - 1 == lane){
+              if (check_car_s - car_s > - 10 && check_car_s - car_s <  30)
+                car_right_close = true;
+            }
           }
+                 
+                
           
-          
-          if(too_close)
-          {
-           ref_vel -= .224;
-          
+
+          if (car_ahead_close){
+            if (car_left_close == false && lane > 0)
+              lane--;
+            else if (car_right_close == false && lane < 2)
+              lane++;
+            else
+              ref_vel -= 0.224;
           }
-          else if(ref_vel<49.5)
-          {
-           ref_vel += .224;  
-            
+          else {
+            if ((lane == 2 && car_left_close == false) || (lane == 0 && car_right_close == false))
+              lane = 1;
+            if (ref_vel <  49.5)
+              ref_vel += 0.224;
           }
           
           
