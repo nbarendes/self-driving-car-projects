@@ -20,6 +20,14 @@ In this repository I will share the source code of all the projects of Udacity S
  - **Summary:** Built and trained a convolutional neural network for end-to-end driving in a simulator, using TensorFlow and Keras. Used optimization techniques such as regularization and dropout to generalize the network for driving on multiple tracks.
  - **Keywords:** Deep Learning, Keras, Convolutional Neural Networks
 
- #### [P5 - Extended Kalman Filter](CarND-Extended-Kalman-Filter-P5)
+#### [P5 - Extended Kalman Filter](CarND-Extended-Kalman-Filter-P5)
  - **Summary:** Implement the extended Kalman filter in C++. Simulated lidar and radar measurements are used to detect a bicycle that travels around your vehicle. Kalman filter, lidar measurements and radar measurements are used to track the bicycle's position and velocity.
  - **Keywords:** C++, Kalman Filter
+ 
+#### [P6 - Kidnapped Vehicle](CarND-Kidnapped-Vehicle-Project-P6)
+ - **Summary:** Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data. In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data.
+ - **Keywords:** C++, Particle Filter
+ 
+ #### [P7 - Path Planning](CarND-Path-Planning-Project-P7)
+- **Summary:** The goal in this project is to build a path planner that is able to create smooth, safe trajectories for the car to follow. The highway track has other vehicles, all going different speeds, but approximately obeying the 50 MPH speed limit. The car transmits its location, along with its sensor fusion data, which estimates the location of all the vehicles on the same side of the road.
+- **Keywords:** C++, Path Planning
