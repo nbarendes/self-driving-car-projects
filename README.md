@@ -31,3 +31,7 @@ In this repository I will share the source code of all the projects of Udacity S
  #### [P7 - Path Planning](CarND-Path-Planning-Project-P7)
 - **Summary:** The goal in this project is to build a path planner that is able to create smooth, safe trajectories for the car to follow. The highway track has other vehicles, all going different speeds, but approximately obeying the 50 MPH speed limit. The car transmits its location, along with its sensor fusion data, which estimates the location of all the vehicles on the same side of the road.
 - **Keywords:** C++, Path Planning
+
+ #### [P8 - PID Control](CarND-PID-Control-Project-P8)
+ - **Summary:** Implement a PID controller for keeping the car on track by appropriately adjusting the steering angle.
+ - **Keywords:** C++, PID Controller
